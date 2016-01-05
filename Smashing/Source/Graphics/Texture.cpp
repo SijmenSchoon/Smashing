@@ -5,6 +5,9 @@ void Texture::load(const std::string &file)
 {
     SDL_Surface *loadedImage = SDL_LoadBMP(file.c_str());
     SDL_PixelFormat *format = loadedImage->format;
+    if (format->BitsPerPixel != 32)
+        throw std::runtime_error("Texture is not 32 bit!");
+
     SDL_Surface *scaledImage = SDL_CreateRGBSurface(0, loadedImage->w * Graphics::Scale,
         loadedImage->h * Graphics::Scale, format->BitsPerPixel, format->Rmask, format->Gmask,
         format->Bmask, format->Amask);
