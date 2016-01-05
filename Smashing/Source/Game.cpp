@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "State.h"
+#include "States/State.h"
 
 void Game::changeState(State &newState)
 {
