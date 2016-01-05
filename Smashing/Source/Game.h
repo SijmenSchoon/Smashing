@@ -3,12 +3,12 @@
 
 class Game
 {
-	State &currentState;
+    State &currentState;
 
 public:
-	Game(State &initialState);
+    Game(State &initialState);
 
-	void changeState(State &newState);
-	State &getCurrentState();
-	void update();
+    void changeState(State &newState);
+    State &getCurrentState();
+    void update();
 };

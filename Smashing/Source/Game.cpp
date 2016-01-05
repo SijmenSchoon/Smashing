@@ -1,24 +1,24 @@
 #include "Game.h"
 
 Game::Game(State &initialState)
-	: currentState(initialState)
+    : currentState(initialState)
 {
-	initialState.enter();
+    initialState.enter();
 }
 
 void Game::changeState(State &newState)
 {
-	currentState.exit();
-	currentState = newState;
-	currentState.enter();
+    currentState.exit();
+    currentState = newState;
+    currentState.enter();
 }
 
 State &Game::getCurrentState()
 {
-	return currentState;
+    return currentState;
 }
 
 void Game::update()
 {
-	currentState.update();
+    currentState.update();
 }

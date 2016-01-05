@@ -4,7 +4,7 @@
 class GameState : public State
 {
 public:
-	void enter();
-	void update();
-	void exit();
+    void enter();
+    void update();
+    void exit();
 };
