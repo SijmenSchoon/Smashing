@@ -4,13 +4,17 @@
 
 SDL_Renderer *Graphics::Renderer;
 SDL_Window *Graphics::Window;
+int Graphics::Scale;
 
-void Graphics::Init(const std::string &title, int width, const int height)
+void Graphics::Init(const std::string &title, const int scale)
 {
+    Scale = scale;
+
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
         throw std::runtime_error("SDL_Init error: " + GetSDLError());
 
-    Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
+    Window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 
+        NATIVE_WIDTH * scale, NATIVE_HEIGHT * scale, SDL_WINDOW_SHOWN);
     if (Window == nullptr)
     {
         std::string error = GetSDLError();

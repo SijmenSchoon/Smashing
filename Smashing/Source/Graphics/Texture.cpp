@@ -1,12 +1,32 @@
 #include "Texture.h"
+#include <iostream> 
 
 void Texture::load(const std::string &file)
 {
     SDL_Surface *loadedImage = SDL_LoadBMP(file.c_str());
+    SDL_PixelFormat *format = loadedImage->format;
+    SDL_Surface *scaledImage = SDL_CreateRGBSurface(0, loadedImage->w * Graphics::Scale,
+        loadedImage->h * Graphics::Scale, format->BitsPerPixel, format->Rmask, format->Gmask,
+        format->Bmask, format->Amask);
+
+    for (int y = 0; y < scaledImage->h; y++)
+    {
+        for (int x = 0; x < scaledImage->w; x++)
+        {
+            int yy = y / Graphics::Scale;
+            int xx = x / Graphics::Scale;
+
+            ((uint32_t *)scaledImage->pixels)[y * scaledImage->w + x] =
+                ((uint32_t *)loadedImage->pixels)[yy * loadedImage->w + xx];
+        }
+    }
+    
+    SDL_FreeSurface(loadedImage);
+
     if (loadedImage != nullptr)
     {
-        texture = SDL_CreateTextureFromSurface(Graphics::Renderer, loadedImage);
-        SDL_FreeSurface(loadedImage);
+        texture = SDL_CreateTextureFromSurface(Graphics::Renderer, scaledImage);
+        SDL_FreeSurface(scaledImage);
 
         if (texture == nullptr)
         {
