@@ -285,3 +285,7 @@ $RECYCLE.BIN/
 
 # Libraries
 *.dll
+
+# Compilation output
+Binaries/
+Objects/
