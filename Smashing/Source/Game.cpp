@@ -1,10 +1,5 @@
 #include "Game.h"
-
-Game::Game(State &initialState)
-    : currentState(initialState)
-{
-    initialState.enter();
-}
+#include "State.h"
 
 void Game::changeState(State &newState)
 {

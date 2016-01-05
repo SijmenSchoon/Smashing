@@ -1,13 +1,9 @@
 #pragma once
-#include "State.h"
+#include "StateManager.h"
 
-class Game
+class Game : public StateManager
 {
-    State &currentState;
-
 public:
-    Game(State &initialState);
-
     void changeState(State &newState);
     State &getCurrentState();
     void update();

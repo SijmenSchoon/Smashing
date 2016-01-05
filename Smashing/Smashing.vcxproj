@@ -125,6 +125,7 @@
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\GameState.h" />
     <ClInclude Include="Source\State.h" />
+    <ClInclude Include="Source\StateManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
