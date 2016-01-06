@@ -8,7 +8,7 @@ int main(int argc, char **argv)
 {
     Graphics::Init("Smashing", 3);
 
-    Texture texture("Data/Characters/mario.bmp");
+    Texture texture("Data/Characters/mario.png");
 
     SDL_SetRenderDrawColor(Graphics::Renderer, 255, 0, 255, SDL_ALPHA_OPAQUE);
     while (true)

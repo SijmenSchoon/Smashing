@@ -1,16 +1,23 @@
 #include "Texture.h"
-#include <iostream> 
+#include <iostream>
+#include <SDL_image.h>
 
 void Texture::load(const std::string &file)
 {
-    SDL_Surface *loadedImage = SDL_LoadBMP(file.c_str());
+    SDL_Surface *loadedImage = IMG_Load(file.c_str());
+    if (loadedImage == nullptr)
+        throw std::runtime_error("IMG_Load error: " + std::string(IMG_GetError()));
+
     SDL_PixelFormat *format = loadedImage->format;
     if (format->BitsPerPixel != 32)
-        throw std::runtime_error("Texture is not 32 bit!");
+        throw std::runtime_error("Texture::load error: Texture is not 32 bit!");
 
     SDL_Surface *scaledImage = SDL_CreateRGBSurface(0, loadedImage->w * Graphics::Scale,
         loadedImage->h * Graphics::Scale, format->BitsPerPixel, format->Rmask, format->Gmask,
         format->Bmask, format->Amask);
+    
+    if (scaledImage == nullptr)
+        throw std::runtime_error("SDL_CreateRGBSurface error: " + Graphics::GetSDLError());
 
     for (int y = 0; y < scaledImage->h; y++)
     {
@@ -25,23 +32,13 @@ void Texture::load(const std::string &file)
     }
     
     SDL_FreeSurface(loadedImage);
+    
+    texture = SDL_CreateTextureFromSurface(Graphics::Renderer, scaledImage);
+    SDL_FreeSurface(scaledImage);
 
-    if (loadedImage != nullptr)
-    {
-        texture = SDL_CreateTextureFromSurface(Graphics::Renderer, scaledImage);
-        SDL_FreeSurface(scaledImage);
-
-        if (texture == nullptr)
-        {
-            // TODO: Make a new exception for this
-            throw std::runtime_error("SDL_CreateTextureFromSurface failed (" + Graphics::GetSDLError() + ")");
-        }
-    }
-    else
-    {
+    if (texture == nullptr)
         // TODO: Make a new exception for this
-        throw std::runtime_error("SDL_LoadBMP failed (" + Graphics::GetSDLError() + ")");
-    }
+        throw std::runtime_error("SDL_CreateTextureFromSurface error: " + Graphics::GetSDLError());
 }
 
 void Texture::destroy()
